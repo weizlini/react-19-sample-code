@@ -7,17 +7,13 @@ import localForage from "localforage";
  */
 export async function fetchBio() {
   await delay(1000); // simulate a call to the server
-  try {
-    let bio = localForage.getItem("bio");
-    return String(bio);
-  } catch {
-    return {
-      code: 1,
-      message: "unable to get bio",
-    };
-  }
+  return await localForage.getItem("bio");
 }
 
+export async function ssFetchBio() {
+  await delay(1000); // simulate a call to the server
+  return localForage.getItem("bio");
+}
 /**
  * simulates a call to the server to save the bio
  * @param bio the text to save
@@ -27,19 +23,13 @@ export async function fetchBio() {
 export async function saveBio(bio, fail = false) {
   await delay(1000);
   if (fail) {
-    return {
-      code: 1,
-      message: "unable to save bio",
-    };
+    throw new Error("unable to save bio");
   } else {
     try {
       await localForage.setItem("bio", bio);
       return false;
     } catch {
-      return {
-        code: 1,
-        message: "unable to save bio",
-      };
+      throw new Error("unable to save bio");
     }
   }
 }
@@ -50,5 +40,11 @@ export async function saveBio(bio, fail = false) {
  * @returns {Promise<unknown>}
  */
 function delay(ms) {
-  return new Promise((resolve) => (resolve, ms));
+  console.log("simulated server call");
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      console.log("done fake server call");
+      resolve();
+    }, ms),
+  );
 }

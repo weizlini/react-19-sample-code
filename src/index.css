@@ -16,7 +16,7 @@ code {
   align-items:center;
 }
 .form-container{
-  width:300px;
+  width:350px;
 }
 .col{
   display:flex;
@@ -60,4 +60,7 @@ p {
 }
 em{
   font-size:0.8em;
+}
+button{
+  margin-bottom:30px;
 }

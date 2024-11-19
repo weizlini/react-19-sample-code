@@ -21,7 +21,7 @@ export async function ssFetchBio() {
  * @returns {Promise<{code: number, message: string}|boolean>}
  */
 export async function saveBio(bio, fail = false) {
-  await delay(1000);
+  await delay(2000);
   if (fail) {
     throw new Error("unable to save bio");
   } else {

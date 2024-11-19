@@ -4,14 +4,26 @@ import Example1 from "./components/Example1";
 import Example2 from "./components/Example2";
 import Example3 from "./components/Example3";
 import { fetchBio } from "./Api";
+import Loader from "./components/Loader";
 
 function App() {
   const [currentBio, setCurrentBio] = useState("");
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetchBio().then((newBio) => {
-      setCurrentBio(newBio);
-    });
-  }, [currentBio]);
+    if (loading) {
+      fetchBio().then((newBio) => {
+        setCurrentBio(newBio);
+        setLoading(false);
+      });
+    }
+  }, [loading]);
+  if (loading)
+    return (
+      <div className={"row"}>
+        <Loader />
+        loading...
+      </div>
+    );
   return (
     <>
       <div className={"form-container"}>

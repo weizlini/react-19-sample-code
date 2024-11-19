@@ -1,4 +1,4 @@
-export const Loader = ({ size, color }) => {
+const Loader = ({ color }) => {
   const strokeColor = color ? color : "#000000";
   return (
     <svg
@@ -26,3 +26,5 @@ export const Loader = ({ size, color }) => {
     </svg>
   );
 };
+
+export default Loader;

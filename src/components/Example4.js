@@ -1,12 +1,17 @@
-import React, { useEffect, useOptimistic, useState } from "react";
+import React, {
+  useActionState,
+  useEffect,
+  useOptimistic,
+  useState,
+} from "react";
 import { saveBio } from "../Api";
 import { useFormStatus } from "react-dom";
 
-const SubmitButton = ({ dirty }) => {
+const SubmitButton = ({ pristine }) => {
   const formStatus = useFormStatus();
   return (
-    <button disabled={formStatus.pending || !dirty}>
-      {formStatus.pending ? "saving" : !dirty ? "saved" : "save"}
+    <button disabled={formStatus.pending || pristine}>
+      {formStatus.pending ? "saving" : pristine ? "saved" : "save"}
     </button>
   );
 };
@@ -14,43 +19,42 @@ const SubmitButton = ({ dirty }) => {
 const Example4 = ({ currentBio, setCurrentBio }) => {
   const [bio, setBio] = useState(currentBio);
   const [optimisticBio, setOptimisticBio] = useOptimistic(currentBio);
-  const [error, setError] = useState(null);
-  const dirty = currentBio !== bio;
+  const pristine = currentBio === bio;
 
-  // update local state if external state changes
+  // update local state if props change after mounting
   useEffect(() => {
     setBio(currentBio);
   }, [currentBio]);
 
   const onSave = async () => {
-    setError(false);
-    setOptimisticBio(bio); //will automatically switch back if an error is thrown
+    setOptimisticBio(bio);
     try {
       await saveBio(bio);
       setCurrentBio(bio);
+      return null;
     } catch (serverError) {
-      setError(serverError.message);
+      return serverError.message;
     }
   };
+
+  const [error, formAction] = useActionState(onSave, null);
+
   return (
-    <div className={"col"}>
-      <form>
+    <form action={formAction}>
+      <div className={"col"}>
         <h3>Current Bio:</h3>
         <p>{optimisticBio ? optimisticBio : <em>your bio is empty</em>}</p>
         <textarea
           onChange={(e) => {
-            setBio(e.target.value); // we can't test for pending here ??
+            setBio(e.target.value);
           }}
           placeholder="Describe yourself in a few words"
           value={bio}
-        >
-          {bio}
-        </textarea>
+        />
         {error && <div className={"form-error"}>{error}</div>}
-        <SubmitButton dirty={dirty} />
-      </form>
-    </div>
+        <SubmitButton pristine={pristine} />
+      </div>
+    </form>
   );
 };
 export default Example4;
-/* */

@@ -3,23 +3,25 @@ import { saveBio } from "../Api";
 
 const Example1 = ({ currentBio, setCurrentBio }) => {
   const [bio, setBio] = useState(currentBio);
-  const [saving, setSaving] = useState(false);
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState(null);
-  const dirty = currentBio !== bio;
-  // update local state if external state changes
+  const pristine = currentBio === bio;
+
+  // update local state if props change after mounting
   useEffect(() => {
     setBio(currentBio);
   }, [currentBio]);
+
   const onSave = async () => {
     setError(false);
-    setSaving(true);
+    setPending(true);
     try {
-      await saveBio(bio, false);
+      await saveBio(bio);
       setCurrentBio(bio);
     } catch (serverError) {
       setError(serverError.message);
     }
-    setSaving(false);
+    setPending(false);
   };
 
   return (
@@ -32,12 +34,10 @@ const Example1 = ({ currentBio, setCurrentBio }) => {
         }}
         placeholder="Describe yourself in a few words"
         value={bio}
-      >
-        {bio}
-      </textarea>
+      />
       {error && <div className={"form-error"}>{error}</div>}
-      <button onClick={onSave} disabled={saving || !dirty}>
-        {saving ? "saving" : !dirty ? "saved" : "save"}
+      <button onClick={onSave} disabled={pending || pristine}>
+        {pending ? "saving" : pristine ? "saved" : "save"}
       </button>
     </div>
   );

@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { saveBio } from "../Api";
 
-const Example3 = ({ currentBio, setCurrentBio }) => {
+const Example3b = ({ currentBio, setCurrentBio }) => {
   const [bio, setBio] = useState(currentBio);
   const [optimisticBio, setOptimisticBio] = useOptimistic(currentBio);
   const [error, setError] = useState(null);
@@ -18,12 +18,12 @@ const Example3 = ({ currentBio, setCurrentBio }) => {
     setBio(currentBio);
   }, [currentBio]);
 
-  const onSave = (fail) => {
+  const onSave = () => {
     startTransition(async () => {
       setError(false);
       setOptimisticBio(bio); //will automatically switch back if an error is thrown
       try {
-        await saveBio(bio, fail);
+        await saveBio(bio);
         setCurrentBio(bio);
       } catch (serverError) {
         setError(serverError.message);
@@ -44,20 +44,11 @@ const Example3 = ({ currentBio, setCurrentBio }) => {
       {error && <div className={"form-error"}>{error}</div>}
       <div className={"row"}>
         <button onClick={() => onSave(false)} disabled={pending || pristine}>
-          {pending
-            ? "pending"
-            : pending || pristine
-              ? "saved"
-              : "save (success)"}
+          {pending ? "pending" : pending || pristine ? "saved" : "save"}
         </button>
-        {pristine ? (
-          <button onClick={() => onSave(true)} disabled={pending || pristine}>
-            {pending ? "saving" : "save (fail)"}
-          </button>
-        ) : null}
       </div>
     </div>
   );
 };
-export default Example3;
+export default Example3b;
 /* */

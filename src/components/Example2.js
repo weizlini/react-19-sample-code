@@ -4,12 +4,14 @@ import { saveBio } from "../Api";
 const Example2 = ({ currentBio, setCurrentBio }) => {
   const [bio, setBio] = useState(currentBio);
   const [error, setError] = useState(null);
-  const [saving, startTransition] = useTransition(); //<-- removed useState for saving
-  const dirty = currentBio !== bio;
-  // update local state if external state changes
+  const [pending, startTransition] = useTransition(); //<-- removed useState for pending
+  const pristine = currentBio === bio;
+
+  // update local state if props change after mounting
   useEffect(() => {
     setBio(currentBio);
   }, [currentBio]);
+
   const onSave = () => {
     startTransition(async () => {
       setError(false);
@@ -27,16 +29,14 @@ const Example2 = ({ currentBio, setCurrentBio }) => {
       <p>{currentBio ? currentBio : <em>your bio is empty</em>}</p>
       <textarea
         onChange={(e) => {
-          if (!saving) setBio(e.target.value);
+          setBio(e.target.value);
         }}
         placeholder="Describe yourself in a few words"
         value={bio}
-      >
-        {bio}
-      </textarea>
+      />
       {error && <div className={"form-error"}>{error}</div>}
-      <button onClick={onSave} disabled={saving || !dirty}>
-        {saving ? "saving" : !dirty ? "saved" : "save"}
+      <button onClick={onSave} disabled={pending || pristine}>
+        {pending ? "saving" : pristine ? "saved" : "save"}
       </button>
     </div>
   );

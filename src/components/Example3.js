@@ -1,9 +1,5 @@
-import React, {
-  useEffect,
-  useOptimistic,
-  useState,
-  useTransition,
-} from "react";
+//prettier-ignore
+import { useOptimistic, useState, useTransition } from "react";
 import { saveBio } from "../Api";
 
 const Example3 = ({ currentBio, setCurrentBio }) => {
@@ -12,11 +8,6 @@ const Example3 = ({ currentBio, setCurrentBio }) => {
   const [error, setError] = useState(null);
   const [pending, startTransition] = useTransition();
   const pristine = currentBio === bio;
-
-  // update local state if props change after mounting
-  useEffect(() => {
-    setBio(currentBio);
-  }, [currentBio]);
 
   const onSave = (fail) => {
     startTransition(async () => {
@@ -44,20 +35,13 @@ const Example3 = ({ currentBio, setCurrentBio }) => {
       {error && <div className={"form-error"}>{error}</div>}
       <div className={"row"}>
         <button onClick={() => onSave(false)} disabled={pending || pristine}>
-          {pending
-            ? "pending"
-            : pending || pristine
-              ? "saved"
-              : "save (success)"}
+          {pending ? "saving" : pristine ? "saved" : "save (success)"}
         </button>
-        {pristine ? (
-          <button onClick={() => onSave(true)} disabled={pending || pristine}>
-            {pending ? "saving" : "save (fail)"}
-          </button>
-        ) : null}
+        <button onClick={() => onSave(true)} disabled={pending || pristine}>
+          {pending ? "saving" : pristine ? "saved" : "save (fail)"}
+        </button>
       </div>
     </div>
   );
 };
 export default Example3;
-/* */

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { saveBio } from "../Api";
 
-const Example1 = ({ currentBio, setCurrentBio }) => {
+const Example5 = ({ currentBio, setCurrentBio, ref }) => {
   const [bio, setBio] = useState(currentBio);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(null);
@@ -37,4 +37,4 @@ const Example1 = ({ currentBio, setCurrentBio }) => {
     </div>
   );
 };
-export default Example1;
+export default Example5;

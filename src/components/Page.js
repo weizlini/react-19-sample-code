@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import { use, useState } from "react";
 import { fetchBio } from "../Api";
 import Example1 from "./Example1";
 import Example2 from "./Example2";
@@ -19,23 +19,43 @@ const Page = () => {
     <>
       <div className={"form-container"}>
         <h2>Edit Your Bio Example 1</h2>
-        <Example1 currentBio={currentBio} setCurrentBio={setCurrentBio} />
+        <Example1
+          key={currentBio + "1"}
+          currentBio={currentBio}
+          setCurrentBio={setCurrentBio}
+        />
       </div>
       <div className={"form-container"}>
         <h2>Edit Your Bio Example 2 (useTransition)</h2>
-        <Example2 currentBio={currentBio} setCurrentBio={setCurrentBio} />
+        <Example2
+          key={currentBio + "2"}
+          currentBio={currentBio}
+          setCurrentBio={setCurrentBio}
+        />
       </div>
       <div className={"form-container"}>
         <h2>Edit Your Bio Example 3 (useOptimistic)</h2>
-        <Example3 currentBio={currentBio} setCurrentBio={setCurrentBio} />
+        <Example3
+          key={currentBio + "3"}
+          currentBio={currentBio}
+          setCurrentBio={setCurrentBio}
+        />
       </div>
       <div className={"form-container"}>
         <h2>Edit Your Bio Example 3b (useOptimistic)</h2>
-        <Example3b currentBio={currentBio} setCurrentBio={setCurrentBio} />
+        <Example3b
+          key={currentBio + "3b"}
+          currentBio={currentBio}
+          setCurrentBio={setCurrentBio}
+        />
       </div>
       <div className={"form-container"}>
-        <h2>Edit Your Bio Example 3 (useOptimistic)</h2>
-        <Example4 currentBio={currentBio} setCurrentBio={setCurrentBio} />
+        <h2>Edit Your Bio Example 4 (forms)</h2>
+        <Example4
+          key={currentBio + "4"}
+          currentBio={currentBio}
+          setCurrentBio={setCurrentBio}
+        />
       </div>
     </>
   );

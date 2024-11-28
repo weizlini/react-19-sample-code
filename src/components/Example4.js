@@ -1,9 +1,4 @@
-import React, {
-  useActionState,
-  useEffect,
-  useOptimistic,
-  useState,
-} from "react";
+import {useActionState, useOptimistic, useState} from "react";
 import { saveBio } from "../Api";
 import { useFormStatus } from "react-dom";
 
@@ -20,11 +15,6 @@ const Example4 = ({ currentBio, setCurrentBio }) => {
   const [bio, setBio] = useState(currentBio);
   const [optimisticBio, setOptimisticBio] = useOptimistic(currentBio);
   const pristine = currentBio === bio;
-
-  // update local state if props change after mounting
-  useEffect(() => {
-    setBio(currentBio);
-  }, [currentBio]);
 
   const onSave = async () => {
     setOptimisticBio(bio);

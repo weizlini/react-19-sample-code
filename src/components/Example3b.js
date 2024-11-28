@@ -1,9 +1,4 @@
-import React, {
-  useEffect,
-  useOptimistic,
-  useState,
-  useTransition,
-} from "react";
+import { useOptimistic, useState, useTransition } from "react";
 import { saveBio } from "../Api";
 
 const Example3b = ({ currentBio, setCurrentBio }) => {
@@ -12,11 +7,6 @@ const Example3b = ({ currentBio, setCurrentBio }) => {
   const [error, setError] = useState(null);
   const [pending, startTransition] = useTransition();
   const pristine = currentBio === bio;
-
-  // update local state if props change after mounting
-  useEffect(() => {
-    setBio(currentBio);
-  }, [currentBio]);
 
   const onSave = () => {
     startTransition(async () => {

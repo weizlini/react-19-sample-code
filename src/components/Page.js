@@ -5,6 +5,7 @@ import Example2 from "./Example2";
 import Example3 from "./Example3";
 import Example4 from "./Example4";
 import Example5 from "./Example5";
+import Example5b from "./Example5b";
 
 // the clincher for using "use" with a promise is that the promise INSTANCE must
 // be created outside of the component not just the Async function defined outside
@@ -21,7 +22,7 @@ const Page = () => {
     if (ref.current) {
       setId(ref.current.id);
     }
-  }, [ref.current]);
+  }, []);
   return (
     <>
       <div className={"form-container"}>
@@ -60,6 +61,18 @@ const Page = () => {
         <h2>Edit Your Bio Example 5 (forms)</h2>
         <Example5
           key={currentBio + "5"}
+          currentBio={currentBio}
+          setCurrentBio={setCurrentBio}
+          ref={ref}
+        />
+        <title>Edit Your Bio!</title>
+        <style>{` small { color: blue; } `}</style>
+        <small>id = {id}</small>
+      </div>
+      <div className={"form-container"}>
+        <h2>Edit Your Bio Example 5b using old forwardRef</h2>
+        <Example5b
+          key={currentBio + "5b"}
           currentBio={currentBio}
           setCurrentBio={setCurrentBio}
           ref={ref}
